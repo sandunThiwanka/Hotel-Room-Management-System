@@ -4,8 +4,8 @@ public class DeluxeRoom extends Room {
     private boolean wifiIncluded = false;
     private boolean breakfastIncluded = false;
 
-    public DeluxeRoom(int roomNumber, String roomType, double pricePerNight, boolean isAvailable) {
-        super(roomNumber, roomType, pricePerNight, isAvailable);
+    public DeluxeRoom(int roomNumber, String roomType, double pricePerNight, boolean isAvailable,boolean wifiIncluded,boolean breakfastIncluded) {
+        super(roomNumber, roomType, pricePerNight);
         this.wifiIncluded = false;
         this.breakfastIncluded = false;
     }

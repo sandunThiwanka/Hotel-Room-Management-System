@@ -4,13 +4,13 @@ public class Room {
     private int roomNumber;
     private String roomType;
     private double pricePerNight;
-    private boolean isAvailable;
+    private boolean isAvailable = true;
 
-    public Room(int roomNumber, String roomType, double pricePerNight, boolean isAvailable) {
+    public Room(int roomNumber, String roomType, double pricePerNight) {
         this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.pricePerNight = pricePerNight;
-        this.isAvailable = isAvailable;
+
     }
     public void displayDetails() {
         System.out.println("Room Number: " + roomNumber);
