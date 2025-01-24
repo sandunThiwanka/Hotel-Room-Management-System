@@ -10,7 +10,6 @@ public class Room {
         this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.pricePerNight = pricePerNight;
-
     }
     public void displayDetails() {
         System.out.println("Room Number: " + roomNumber);
