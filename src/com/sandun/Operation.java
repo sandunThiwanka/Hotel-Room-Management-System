@@ -2,16 +2,52 @@ package com.sandun;
 
 import java.util.Scanner;
 public class Operation {
-    private Room[] rooms = new Room[100]; // Array to store room objects
-    private int roomCount = 0; // Counter to track the number of stored rooms
-    //Scanner scanner = new Scanner(System.in);
+    private Room[] rooms = new Room[100];
+    private int roomCount = 0;
+    private Scanner scanner = new Scanner(System.in);
 
-    public void addRoom(Scanner scanner) { // Pass Scanner object from outside
-        System.out.println("=== Hotel Room Booking System ===");
+    private void validateRange(double value, double min, double max) {
+        if(value < min || value > max)
+            System.out.println("Please enter a number between " + min + " and " + max);
+    }
+    public void taskList(){
+        while(true){
+            System.out.println("===Hotel Room Management System===");
+            System.out.println("1. Add Room");
+            System.out.println("2. Display All Rooms");
+            System.out.println("3. Search Room by Type");
+            System.out.println("4. Book a Room");
+            System.out.println("5. Cansel Booking");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            validateRange(choice, 1,6);
+            if (choice == 6) break;
+            switch(choice){
+                case 1:
+                    addRoom();
+                    break;
+                case 2:
+                    displayAllRooms();
+                    break;
+                case 3:
+                    searchRoom();
+                    break;
+                case 4:
+                    bookRoom();
+                    break;
+                case 5:
+                    cancelBooking();
+                    break;
+            }
+        }
+    }
+
+    private void addRoom() {
+        System.out.println("=== Add Room ===");
         System.out.print("Enter Room Number: ");
         int roomNumber = scanner.nextInt();
-        scanner.nextLine(); // Consume the leftover newline
-
+        scanner.nextLine();
         System.out.print("Enter Room Type (Single, Double, Suite): ");
         String roomType = scanner.nextLine();
 
@@ -26,18 +62,21 @@ public class Operation {
         if (isDeluxeRoom.equalsIgnoreCase("yes")) {
             System.out.print("Is WiFi Included? (yes/no): ");
             String isWiFiIncluded = scanner.nextLine();
-            boolean wifi = isWiFiIncluded.equalsIgnoreCase("no");
-
+            boolean wifi = true;
+            if (isWiFiIncluded.equalsIgnoreCase("no")) {
+                wifi = false;
+            }
             System.out.print("Is Breakfast Included? (yes/no): ");
             String isBreakfastIncluded = scanner.nextLine();
-            boolean breakfast = isBreakfastIncluded.equalsIgnoreCase("no");
-
+            boolean breakfast = true;
+            if (isBreakfastIncluded.equalsIgnoreCase("no")) {
+                breakfast = false;
+            }
             room = new DeluxeRoom(roomNumber, roomType, pricePerNight, wifi, breakfast);
-            System.out.println("Deluxe Room Details:");
         } else {
             room = new Room(roomNumber, roomType, pricePerNight);
         }
-        storeRoom(room); // Store the room object
+        storeRoom(room);
     }
 
     private void storeRoom(Room room) {
@@ -50,7 +89,7 @@ public class Operation {
         }
     }
 
-    public void displayAllRooms() {
+    private void displayAllRooms() {
         if (roomCount == 0) {
             System.out.println("No rooms available.");
             return;
@@ -60,16 +99,18 @@ public class Operation {
             rooms[i].displayDetails();
         }
     }
-    public void searchRoom(Scanner scanner) {
+    private void searchRoom() {
+        System.out.println("=== Search Room ===");
+        Scanner scanner1 = new Scanner(System.in);
         System.out.print("Enter Room Type (Single, Double, Suite): ");
-        String roomType = scanner.nextLine(); // Correctly read the input
+        String roomType = scanner1.nextLine();
         scanner.nextLine();
-        boolean roomFound = false; // Track if any matching room is found
+        boolean roomFound = false;
 
-        System.out.println("=== Search Results ===");
-        for (int i = 0; i < roomCount; i++) { // Only iterate through added rooms
+        System.out.println("--- Search Results ---");
+        for (int i = 0; i < roomCount; i++) {
             Room room = rooms[i];
-            if (room != null && room.getRoomType().equalsIgnoreCase(roomType)) {
+            if (room.getRoomType().equalsIgnoreCase(roomType)) {
                 room.displayDetails();
                 roomFound = true;
             }
@@ -80,18 +121,18 @@ public class Operation {
         }
     }
 
-
-    public void bookRoom(Scanner scanner) {
-        System.out.println("Enter Room Number: ");
+    private void bookRoom() {
+        System.out.println("=== Book Room ===");
+        System.out.print("Enter Room Number: ");
         int roomNumber = scanner.nextInt();
-        scanner.nextLine(); // Consume the leftover newline
-        boolean roomBooked = false; // Track if the room is successfully booked
+        scanner.nextLine();
+        boolean roomBooked = false;
 
-        for (int i = 0; i < roomCount; i++) { // Only iterate through added rooms
+        for (int i = 0; i < roomCount; i++) {
             Room room = rooms[i];
             if (room.getRoomNumber() == roomNumber) {
                 if (room.isAvailable()) {
-                    room.setAvailable(false); // Book the room
+                    room.setAvailable(false);
                     System.out.println("Room " + roomNumber + " successfully booked.");
                     roomBooked = true;
                     break;
@@ -107,17 +148,18 @@ public class Operation {
             System.out.println("Room number " + roomNumber + " not found.");
         }
     }
-    public void cancelBooking(Scanner scanner) {
-        System.out.println("Enter Room Number to Cancel Booking: ");
+    private void cancelBooking() {
+        System.out.println("=== Cancel Booking ===");
+        System.out.print("Enter Room Number to Cancel Booking: ");
         int roomNumber = scanner.nextInt();
-        scanner.nextLine(); // Consume the leftover newline
-        boolean bookingCancelled = false; // Track if the booking is successfully canceled
+        scanner.nextLine();
+        boolean bookingCancelled = false;
 
-        for (int i = 0; i < roomCount; i++) { // Only iterate through added rooms
+        for (int i = 0; i < roomCount; i++) {
             Room room = rooms[i];
             if (room.getRoomNumber() == roomNumber) {
                 if (!room.isAvailable()) {
-                    room.setAvailable(true); // Mark the room as available
+                    room.setAvailable(true);
                     System.out.println("Booking for Room " + roomNumber + " has been successfully canceled.");
                     bookingCancelled = true;
                     break;

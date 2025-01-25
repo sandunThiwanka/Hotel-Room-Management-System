@@ -1,13 +1,13 @@
 package com.sandun;
 
 public class DeluxeRoom extends Room {
-    private boolean wifiIncluded = false;
-    private boolean breakfastIncluded = false;
+    private boolean wifiIncluded;
+    private boolean breakfastIncluded;
 
     public DeluxeRoom(int roomNumber, String roomType, double pricePerNight,boolean wifiIncluded, boolean breakfastIncluded) {
         super(roomNumber, roomType, pricePerNight);
-        this.wifiIncluded = false;
-        this.breakfastIncluded = false;
+        this.wifiIncluded = wifiIncluded;
+        this.breakfastIncluded = breakfastIncluded;
     }
     @Override
     public void displayDetails() {
